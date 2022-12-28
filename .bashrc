@@ -17,21 +17,20 @@ if [ -z "${debian_chroot:-}" ] && [ -r /etc/debian_chroot ]; then
     debian_chroot=$(cat /etc/debian_chroot)
 fi
 
-case "$TERM" in
-    xterm-color|*-256color) color_prompt=yes;;
-esac
 
 #force_color_prompt=yes
 
-if [ -n "$force_color_prompt" ]; then
-    if [ -x /usr/bin/tput ] && tput setaf 1 >&/dev/null; then
+if [ -z "$force_color_prompt" ]; then
+    if [ -x /usr/bin/tput ] && tput setaf 1; then
         # We have color support; assume it's compliant with Ecma-48
         # (ISO/IEC-6429). (Lack of such support is extremely rare, and such
         # a case would tend to support setf rather than setaf.)
         color_prompt=yes
     else
-        color_prompt=
+        color_prompt=no
     fi
+else
+    color_prompt=yes
 fi
 
 if [ "$color_prompt" = yes ]; then
